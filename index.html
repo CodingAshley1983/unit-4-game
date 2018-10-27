@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Crystal Collector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Niconne" rel="stylesheet">
+   
+</head>
+<body>
+
+    
+    <div class= "container-fluid  top">
+        Crystal Collector Game
+    </div>
+
+    <div class= "container-fluid  instructions">
+        <h5>To play the game, click the crystals until you reach the "Target Score" without going over.
+            If you match it, you win! Go over and you lose. 
+        </h5>
+    </div>
+
+    <div class= "row main">
+        
+            <div class=" col-lg-3 targetScore"></div>
+            <div class="col-lg-3 userScore"> </div>
+            <div class="col-lg-3 wins"></div>
+            <div class="col-lg-3 losses"></div>
+    </div>
+            <div class="crystal-container">
+            </div>
+       
+        
+            <script src="https://code.jquery.com/jquery.js"></script>
+            <script>
+                var targetScore = 0;
+                var images = [
+                    "http://en.es-static.us/upl/2015/02/amethyst.jpg",
+                    "http://en.es-static.us/upl/2015/02/amethyst.jpg",
+                    "http://en.es-static.us/upl/2015/02/amethyst.jpg",
+                    "http://en.es-static.us/upl/2015/02/amethyst.jpg",
+                    "http://en.es-static.us/upl/2015/02/amethyst.jpg",
+                ];
+                var wins = 0;
+                var losses = 0;
+                var userScore = 0;
+        
+                function setTargetScore() {
+                    targetScore = Math.floor(Math.random() * 100);
+                    $(".targetScore").text("Target score: " + targetScore);
+                }
+        
+                function createCrystals() {
+                    $(".crystal-container").html("");
+                    setTargetScore();
+                    for (i = 0; i < images.length; i++) {
+                        var img = $("<img>");
+                        img.attr('src', images[i]);
+                        img.addClass("crystal");
+                        img.attr("points", Math.floor(Math.random() * 13));
+                        $(".crystal-container").append(img);  
+                    }
+                    crystalClick()
+        
+                }
+        
+                function checkGame() {
+                    if (userScore > targetScore) {
+                        alert("You lost!");
+                        resetGame();
+                        losses++
+                        $(".losses").text("Losses: " + losses);
+                    }
+                    if (userScore === targetScore) {
+                        alert("You're f'n amazing!");
+                        resetGame();
+                        wins++
+                        $(".wins").text("Wins: " + wins);
+                    }
+                }
+        
+                function resetGame() {
+                    userScore = 0;
+                    createCrystals();
+                }
+                createCrystals();
+        
+                function crystalClick() {
+                    $(".crystal").on("click", function () {
+                        console.log($(this).attr("points"));
+                        var crystalValue = $(this).attr("points");
+                        userScore += parseInt(crystalValue);
+                        $(".userScore").text("Score: " + userScore);
+                        checkGame();
+                    })
+                }
+            </script>
+        
+        
+        
+        
+        
+        
+        
+        </body>
+        
+        </html>
+
